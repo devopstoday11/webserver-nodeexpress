@@ -5,12 +5,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>{{pageTitle}}</title>
+  {{> material}}
 </head>
 <body>
-  <h1>{{pageTitle}}</h1>
-  <p>{{welcomeMessage}}</p>
-  <footer>
-    <p>Copyright {{currentYear}}</p>
-  </footer>
+  <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+  {{> header}}
+  <main class="mdl-layout__content  mdl-grid">
+    <p>{{welcomeMessage}}</p>
+  </main>
+  {{> footer}}
+  </div>
 </body>
 </html>
