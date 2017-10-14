@@ -1,0 +1,23 @@
+{
+  "name": "webserver-nodeexpress",
+  "version": "1.0.0",
+  "description": "A sample web server in node and express",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/timurista/webserver-nodeexpress.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/timurista/webserver-nodeexpress/issues"
+  },
+  "homepage": "https://github.com/timurista/webserver-nodeexpress#readme",
+  "dependencies": {
+    "express": "^4.16.2",
+    "hbs": "^4.0.1"
+  }
+}
