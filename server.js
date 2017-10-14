@@ -6,17 +6,21 @@ const app = express();
 app.set('view engine', 'hbs');
 app.use(express.static(__dirname + '/public'));
 
+// constants
+const currentYear = new Date().getFullYear();
+
 app.get('/', (req, res) => {
   res.render('about.hbs', {
     pageTitle: 'Home Page',
-    currentYear: new Date().getFullYear()
+    welcomeMessage: 'Welcome to the website',
+    currentYear
   });
 });
 
 app.get('/about', (req, res) => {
   res.render('about.hbs', {
     pageTitle: 'About Page',
-    currentYear: new Date().getFullYear()
+    currentYear
   });
 });
 
