@@ -4,6 +4,9 @@ MongoClient.connect('mongodb://localhost:27017/TodoApp', (err, db) => {
   if (err) return console.log('Unable to connect to MongoDb server');
   console.log('Connected to MongoDb server');
 
+
+// READ
+
 // db.collection('Todos').find({completed: false}).toArray()
 //   .then(docs => console.log(docs))
 //   .catch(err => console.log('could not get documetns as array'));
@@ -19,9 +22,11 @@ MongoClient.connect('mongodb://localhost:27017/TodoApp', (err, db) => {
 //   .then( count => console.log(`Todos count: ${count}`))
 //   .catch(err => console.log('Failed to count: ', err))
 
-db.collection('users').find({name: 'Tim'}).toArray()
-  .then(docs => console.log(docs))
-  .catch(err => console.log('Failed to count: ', err))
+// db.collection('users').find({name: 'Tim'}).toArray()
+//   .then(docs => console.log(docs))
+//   .catch(err => console.log('Failed to count: ', err))
+
+// DELETE
 
 
 db.close();
