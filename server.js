@@ -21,7 +21,7 @@ app.use((req, res, next) => {
 // require('./utils/construction.js')(app);
 
 // static 
-app.use(express.static(__dirname + '/public'));
+app.use(express.static(__dirname + '../public'));
 
 hbs.registerHelper('getCurrentYear', () => new Date().getFullYear());
 hbs.registerHelper('screamIt', (text) => text.toUpperCase());
@@ -49,7 +49,7 @@ app.get('/bad', (req, res) => {
   res.send({info: 'bad request'});
 })
 
-require('./server-mongo')(app);
+require('./server/server-mongo')(app);
 
 app.listen(port, () => {
   console.log(`Server is up on port ${port}`);
