@@ -3,7 +3,7 @@ const hbs = require('hbs');
 const fs = require('fs');
 
 const port = process.env.PORT || 3000;
-const app = express();
+var app = express();
 
 // middleware
 hbs.registerPartials(__dirname + '/views/partials');
@@ -45,14 +45,14 @@ app.get('/projects', (req, res) => {
   });
 });
 
-
 app.get('/bad', (req, res) => {
   res.send({info: 'bad request'});
 })
 
-
+require('./server-mongo')(app);
 
 app.listen(port, () => {
   console.log(`Server is up on port ${port}`);
 });
 
+module.exports = {app}

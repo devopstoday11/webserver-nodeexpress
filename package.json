@@ -4,14 +4,17 @@
   "description": "A sample web server in node and express",
   "main": "index.js",
   "scripts": {
-    "start": "node server.js",
-    "dev": "nodemon server.js -e js,hbs",
+    "start": "node server/server.js",
+    "dev": "nodemon server/server.js -e js,hbs",
     "test": "mocha server/**/*.test.js",
     "test-watch": "nodemon --exec \"npm test\""
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/timurista/webserver-nodeexpress.git"
+  },
+  "engines": {
+    "node": "8.7.0"
   },
   "author": "",
   "license": "ISC",
