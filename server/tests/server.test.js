@@ -1,12 +1,14 @@
 const expect = require('expect');
 const request = require('supertest');
+const {ObjectID} = require('mongodb');
 
 const {app} = require('../server-mongo');
 const {Todo} = require('../models/todo');
 
+
 const todos = [
-  {text: "first test todo"},
-  {text: "second test todo"}
+  {_id: new ObjectID(), text: "first test todo"},
+  {_id: new ObjectID(), text: "second test todo"}
 ];
 
 beforeEach(done => {
@@ -71,4 +73,32 @@ describe('GET /todos', () => {
       .end(done);
   });
 });
+
+describe('GET /todos/:id', () => {
+  it('should get todo back', done => {
+    request(app).get(`/todos/${todos[0]._id.toHexString()}`)
+      .expect(200)
+      .expect((res) => {
+        expect(res.body.todo.text).toBe(todos[0].text)
+      })
+      .end(done);
+  })
+
+  it('should return 404 for object not found', done => {
+    const originalID = todos[0]._id.toHexString();
+    var notFoundID = originalID.slice(0, -1) + '0';
+    expect(ObjectID.isValid(notFoundID)).toBe(true);
+    expect(notFoundID).not.toBe(originalID);
+
+    request(app).get(`/todos/${notFoundID}`)
+      .expect(404)
+      .end(done);
+  })
+
+  it('should return 404 for invalid object', done => {
+    request(app).get(`/todos/${123}`)
+      .expect(404)
+      .end(done);
+  })
+})
 
