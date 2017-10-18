@@ -9,7 +9,7 @@ const {Todo} = require('../models/todo');
 
 const todos = [
   {_id: new ObjectID(), text: "first test todo"},
-  {_id: new ObjectID(), text: "second test todo"}
+  {_id: new ObjectID(), text: "second test todo", completed: true, compeltedAt: 333}
 ];
 
 beforeEach(done => {
@@ -111,7 +111,15 @@ describe('DELETE /todos/:id', () => {
       .expect((res) => {
         expect(res.body.todo.text).toBe(todos[0].text)
       })
-      .end(done);
+      .end(err => {
+        if (err) return done(err);
+        Todo.find().then(todos => {
+          expect(todos.length).toBe(1);
+          done();
+        }).catch(err => done(err));
+        
+      });
+
   })
 
   it('should return 404 for object not found', done => {
@@ -129,5 +137,31 @@ describe('DELETE /todos/:id', () => {
     request(app).delete(`/todos/${123}`)
       .expect(404)
       .end(done);
+  })
+})
+
+describe('PATCH /todos/:id', () => {
+  it('should update todo and get it back', done => {
+    request(app).patch(`/todos/${todos[0]._id.toHexString()}`)
+      .send({ text: "changed", completed: true})
+      .expect(200)
+      .expect((res) => {
+        expect(res.body.todo.text).toBe("changed")
+        expect(res.body.todo.completed).toBe(true);
+        expect(typeof res.body.todo.completedAt === "number").toBeTruthy();
+      })
+      .end(done);
+  })
+
+  it('should clear compeltedAt when todo is not completed', done => {
+    request(app).patch(`/todos/${todos[1]._id.toHexString()}`)
+    .send({ text: "changed 2", completed: false})
+    .expect(200)
+    .expect((res) => {
+      expect(res.body.todo.text).toBe("changed 2")
+      expect(res.body.todo.completed).toBe(false);
+      expect(res.body.todo.compeltedAt).not.toBeTruthy();
+    })
+    .end(done);
   })
 })
