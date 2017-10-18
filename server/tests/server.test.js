@@ -95,7 +95,7 @@ describe('GET /todos/:id', () => {
       .end(done);
   })
 
-  it('should return 404 for invalid object', done => {
+  it('should return 404 for an invalid object', done => {
     request(app).get(`/todos/${123}`)
       .expect(404)
       .end(done);
