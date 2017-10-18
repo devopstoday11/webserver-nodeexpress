@@ -2,6 +2,7 @@ const expect = require('expect');
 const request = require('supertest');
 const {ObjectID} = require('mongodb');
 
+// get root server
 const {app} = require('../../server');
 const {Todo} = require('../models/todo');
 
@@ -102,3 +103,31 @@ describe('GET /todos/:id', () => {
   })
 })
 
+describe('DELETE /todos/:id', () => {
+  it('should delete todo and get it back', done => {
+    const prevLength = todos.length;
+    request(app).delete(`/todos/${todos[0]._id.toHexString()}`)
+      .expect(200)
+      .expect((res) => {
+        expect(res.body.todo.text).toBe(todos[0].text)
+      })
+      .end(done);
+  })
+
+  it('should return 404 for object not found', done => {
+    const originalID = todos[0]._id.toHexString();
+    var notFoundID = originalID.slice(0, -1) + '0';
+    expect(ObjectID.isValid(notFoundID)).toBe(true);
+    expect(notFoundID).not.toBe(originalID);
+
+    request(app).delete(`/todos/${notFoundID}`)
+      .expect(404)
+      .end(done);
+  })
+
+  it('should return 404 for an invalid object', done => {
+    request(app).delete(`/todos/${123}`)
+      .expect(404)
+      .end(done);
+  })
+})
