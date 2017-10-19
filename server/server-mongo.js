@@ -4,7 +4,7 @@ const {Todo} = require('./models/todo');
 const _ = require('lodash');
 
 module.exports = (app) => {
-  console.log('configuring controller...', app);  
+  console.log('configuring controller routes...');  
   app.use(bodyParser.json());
 
   app.post('/todos', (req, res) => {
