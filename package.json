@@ -27,7 +27,8 @@
     "express": "^4.16.2",
     "hbs": "^4.0.1",
     "mongodb": "^2.2.33",
-    "mongoose": "^4.12.2"
+    "mongoose": "^4.12.2",
+    "validator": "^9.0.0"
   },
   "devDependencies": {
     "expect": "^21.2.1",

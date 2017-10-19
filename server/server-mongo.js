@@ -1,6 +1,7 @@
 const { ObjectID } = require('mongodb');
 const bodyParser = require('body-parser');
 const {Todo} = require('./models/todo');
+const {User} = require('./models/user');
 const _ = require('lodash');
 
 module.exports = (app) => {
@@ -67,8 +68,16 @@ module.exports = (app) => {
         res.send({ todo });
       })
     .catch(() => res.status(400).send());
+  });
 
-  })
+  // USERS
+
+  app.post('/users', (req, res) => {
+    const body = _.pick(req.body, ['email', 'password']);
+    const user = new User(body);
+    user.save().then(doc => res.send(doc))
+      .catch(e => res.status(400).send(e));    
+  });
 
   return app;
 }
