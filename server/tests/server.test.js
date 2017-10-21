@@ -5,19 +5,11 @@ const {ObjectID} = require('mongodb');
 // get root server
 const {app} = require('../../server');
 const {Todo} = require('../models/todo');
+const {todos, populateTodos, users, populateUsers} = require('./seed/seed');
 
+beforeEach(populateUsers);
+beforeEach(populateTodos);
 
-const todos = [
-  {_id: new ObjectID(), text: "first test todo"},
-  {_id: new ObjectID(), text: "second test todo", completed: true, compeltedAt: 333}
-];
-
-beforeEach(done => {
-  // remove it all
-  Todo.remove({}).then(() => {
-    return Todo.insertMany(todos);
-  }).then(() => done());
-})
 
 describe('POST /todos', () => {
   it('should create a new todo', done => {
@@ -124,7 +116,7 @@ describe('DELETE /todos/:id', () => {
 
   it('should return 404 for object not found', done => {
     const originalID = todos[0]._id.toHexString();
-    var notFoundID = originalID.slice(0, -1) + '0';
+    var notFoundID = new ObjectID();
     expect(ObjectID.isValid(notFoundID)).toBe(true);
     expect(notFoundID).not.toBe(originalID);
 
@@ -161,6 +153,31 @@ describe('PATCH /todos/:id', () => {
       expect(res.body.todo.text).toBe("changed 2")
       expect(res.body.todo.completed).toBe(false);
       expect(res.body.todo.compeltedAt).not.toBeTruthy();
+    })
+    .end(done);
+  })
+})
+
+describe('GET /users/me', () => {
+  it('should return user if authenticated', done => {
+    request(app)
+      .get('/users/me')
+      .set('x-auth', users[0].tokens[0].token)
+      .expect(200)
+      .expect(res => {
+        expect(res.body._id).toBe(users[0]._id.toHexString());
+        expect(res.body.email).toBe(users[0].email);
+      })
+      .end(done);
+  });
+  it('should return 401 if not authenticated', done => {
+    request(app)
+    .get('/users/me')
+    .set('x-auth', 'abc')
+    .expect(401)
+    .expect(res => {
+      expect(res.body._id).not.toBe(users[0]._id.toHexString());
+      expect(res.body.email).not.toBe(users[0].email);
     })
     .end(done);
   })
