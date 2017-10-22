@@ -78,7 +78,7 @@ module.exports = (app) => {
     const user = new User(body);
     
     // User.findByToken
-    user.generateAuthToken();
+    user.generateAuthToken().catch(e => res.status(400).send(e));
     // x-auth is a custom header
     
     user.save()

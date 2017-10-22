@@ -55,7 +55,7 @@ UserSchema.methods.generateAuthToken = function() {
   user.tokens.push({ access, token });
   return user.save().then(() => {
     return token;
-  });
+  }).catch(() => Promise.reject());
 }
 
 // statics turns into model method not instance method
@@ -68,17 +68,6 @@ UserSchema.statics.findByToken = function(token) {
   } catch(e) {
     return Promise.reject();
   }
-
-  // Debug log
-  // User.find({}).then(users =>{
-  //   console.log("data for query");
-  //   console.log("_id:", decoded._id);
-  //   console.log("tokens.token", token);
-  //   console.log("tokens.access", 'auth');
-  //   console.log("decoded", decoded);
-  //   console.log("+++++++++++++users in DB++++++++++++++");
-  //   console.log(users);
-  // });
 
   return User.findOne({
     '_id': decoded._id,
