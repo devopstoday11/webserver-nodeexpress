@@ -91,5 +91,14 @@ module.exports = (app) => {
     res.send(req.user);
   });
 
+  app.post('/users/login', (req, res) => {
+    var {email, password} = req.body;
+    User.findByCredentials(email, password).then(user => {
+      user.generateAuthToken()
+        .then(token => res.header('x-auth', token).send(user));
+    }).catch(() => res.status(400).send())
+    
+  });
+
   return app;
 }
