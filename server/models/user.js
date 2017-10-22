@@ -58,6 +58,16 @@ UserSchema.methods.generateAuthToken = function() {
   }).catch(() => Promise.reject());
 }
 
+UserSchema.methods.removeToken = function(token) {
+  // remove items from array
+  var user = this;
+  return user.update({
+    $pull: {
+      tokens: {token}
+    }
+  })
+}
+
 // statics turns into model method not instance method
 UserSchema.statics.findByToken = function(token) {
   const User = this;

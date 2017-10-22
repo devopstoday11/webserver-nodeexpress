@@ -254,8 +254,24 @@ describe('POST /users/login', () => {
         expect(res.headers).not.toHaveProperty('x-auth');        
       })
       .end((err, res) => {
-        if(err) done(err);
+        if(err) return done(err);
         User.findById(users[1]._id).then( user => {
+          expect(user.tokens).toHaveLength(0);
+          done();
+        }).catch(e => done(e));
+      })
+  })
+})
+
+describe('DELETE /users/me/token', () => {
+  it('should delete the token', done => {
+    request(app)
+      .delete('/users/me/token')
+      .set('x-auth', users[0].tokens[0].token)
+      .expect(200)
+      .end((err, res) => {
+        if(err) return done(err);
+        User.findById(users[0]._id).then( user => {
           expect(user.tokens).toHaveLength(0);
           done();
         }).catch(e => done(e));
