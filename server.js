@@ -3,7 +3,7 @@ const hbs = require('hbs');
 const fs = require('fs');
 
 var app = express();
-require('./server/config');
+require('./server/config/config');
 
 // middleware
 hbs.registerPartials(__dirname + '/views/partials');

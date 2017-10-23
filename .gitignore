@@ -1,3 +1,4 @@
 node_modules
 server.log
 SECRET_KEYS.js
+server/config/config.json
