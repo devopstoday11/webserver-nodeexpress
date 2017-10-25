@@ -23,6 +23,9 @@ app.use((req, res, next) => {
 // static 
 app.use(express.static(__dirname + '../public'));
 
+// chat app goes here
+var server = require('./server/server-chatapp')(app);
+
 hbs.registerHelper('getCurrentYear', () => new Date().getFullYear());
 hbs.registerHelper('screamIt', (text) => text.toUpperCase());
 
@@ -51,7 +54,7 @@ app.get('/bad', (req, res) => {
 
 require('./server/server-mongo')(app);
 
-app.listen(process.env.PORT, () => {
+server.listen(process.env.PORT, () => {
   console.log(`Server is up on port ${process.env.PORT}`);
 });
 
