@@ -9,24 +9,37 @@ module.exports = (app) => {
   
   app.use('/chatapp', 
     express.static(path.join(__dirname, '../public')));
-  // setup the connection
 
+  // sets up connection
   io.on('connection', (socket) => {
     console.log('new user connected on server');
 
-    // socket.emit('newMessage', {
-    //   from: 'mike@example.com',
-    //   text: 'Hey what is up',
-    //   createdAt: 13
-    // });
+    socket.emit('newMessage', {
+      from: 'admin',
+      text: 'welcome to chat app',
+      createdAt: new Date().getTime()
+    })
+    socket.broadcast.emit('newMessage', {
+      from: 'admin',
+      text: 'new user joined',
+      createdAt: new Date().getTime()
+    })
+
 
     socket.on('createMessage', (message) => {
       console.log('create Message', message);
+      // this is to everyone
       io.emit('newMessage', {
         from: message.from,
         text: message.text,
         createdAt: new Date().getTime()
       });
+      // only received by other connections
+      // socket.broadcast.emit('newMessage', {
+      //   from: message.from,
+      //   text: message.text,
+      //   createdAt: new Date().getTime()
+      // });
     })
 
     socket.on('disconnect', () => {
