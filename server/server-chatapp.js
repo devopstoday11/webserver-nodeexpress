@@ -14,14 +14,19 @@ module.exports = (app) => {
   io.on('connection', (socket) => {
     console.log('new user connected on server');
 
-    socket.emit('newMessage', {
-      from: 'mike@example.com',
-      text: 'Hey what is up',
-      createdAt: 13
-    });
+    // socket.emit('newMessage', {
+    //   from: 'mike@example.com',
+    //   text: 'Hey what is up',
+    //   createdAt: 13
+    // });
 
-    socket.on('createMessage', (newMessage) => {
-      console.log('create Message', newMessage);
+    socket.on('createMessage', (message) => {
+      console.log('create Message', message);
+      io.emit('newMessage', {
+        from: message.from,
+        text: message.text,
+        createdAt: new Date().getTime()
+      });
     })
 
     socket.on('disconnect', () => {
