@@ -32,7 +32,7 @@ jQuery('#message-form').on('submit', function(e) {
   e.preventDefault();
   socket.emit('createMessage', {
     from: 'User',
-    text: jQuery('input[name=message').val()
+    text: jQuery('input[name=message]').val()
   }, function() {
 
   })
