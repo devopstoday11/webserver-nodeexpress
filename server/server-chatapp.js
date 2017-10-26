@@ -2,7 +2,7 @@ const path = require('path');
 const socketIO = require('socket.io');
 const http = require('http');
 const express = require('express');
-const {generateMessage} = require('./chat/utils/message');
+const {generateMessage, generateLocationMessage} = require('./chat/utils/message');
 
 module.exports = (app) => {
   var server = http.createServer(app);
@@ -33,8 +33,7 @@ module.exports = (app) => {
     });
 
     socket.on('createLocationMessage', ({latitude, longitude}) => {
-      //
-      io.emit('newMessage', generateMessage('admin', `${latitude}, ${longitude}`))
+      io.emit('newLocationMessage', generateLocationMessage('admin', latitude, longitude));
     })
 
     socket.on('disconnect', () => {

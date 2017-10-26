@@ -1,11 +1,6 @@
 var socket = io(); // initiate request
 socket.on('connect', function() {
   console.log('connected to server');
-
-  // socket.emit('createMessage', {
-  //   from: 'tim@gmail.com',
-  //   text: 'Hey this is Tim'
-  // })
 });
 
 socket.on('disconnect', function() {
@@ -17,15 +12,18 @@ socket.on('newMessage', function(message) {
   var li = jQuery('<li></li>');
   li.text(`${message.from}: ${message.text}`);
   jQuery('#messages').append(li);
-  // to every connection
-})
+});
 
-// socket.emit('createMessage', {
-//   from: 'tim',
-//   text: 'welcome here'
-// }, (data) => {
-//   console.log('got it', data);
-// })
+socket.on('newLocationMessage', function(message) {
+  console.log('new location message', message);
+
+  var li = jQuery('<li></li>');
+  var a = jQuery('<a target="_blank">My Current location</a>');
+  li.text(`${message.from}: `);
+  a.attr('href', message.url);
+  li.append(a);
+  jQuery('#messages').append(li);
+});
 
 // jquery
 jQuery('#message-form').on('submit', function(e) {
