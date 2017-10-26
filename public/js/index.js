@@ -2,10 +2,10 @@ var socket = io(); // initiate request
 socket.on('connect', function() {
   console.log('connected to server');
 
-  socket.emit('createMessage', {
-    from: 'tim@gmail.com',
-    text: 'Hey this is Tim'
-  })
+  // socket.emit('createMessage', {
+  //   from: 'tim@gmail.com',
+  //   text: 'Hey this is Tim'
+  // })
 });
 
 socket.on('disconnect', function() {
@@ -17,3 +17,9 @@ socket.on('newMessage', function(message) {
   // to every connection
 })
 
+socket.emit('createMessage', {
+  from: 'tim',
+  text: 'welcome here'
+}, (data) => {
+  console.log('got it', data);
+})

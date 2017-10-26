@@ -6,8 +6,10 @@
   "scripts": {
     "start": "node server.js",
     "dev": "nodemon server.js -e js,hbs",
-    "test": "export NODE_ENV=test || SET \"NODE_ENV=test\" && mocha server/**/*.test.js",
-    "test-watch": "nodemon --exec \"npm test\""
+    "test": "export NODE_ENV=test || SET \"NODE_ENV=test\" && mocha server/**/*.test.js",    
+    "test-chat": "export NODE_ENV=test || SET \"NODE_ENV=test\" && mocha server/chat/**/*.test.js",
+    "test-watch": "nodemon --exec \"npm test\"",
+    "test-watch-chat": "nodemon --exec \"yarn test-chat\""    
   },
   "repository": {
     "type": "git",

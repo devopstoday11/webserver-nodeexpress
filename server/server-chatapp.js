@@ -2,6 +2,7 @@ const path = require('path');
 const socketIO = require('socket.io');
 const http = require('http');
 const express = require('express');
+const {generateMessage} = require('./chat/utils/message');
 
 module.exports = (app) => {
   var server = http.createServer(app);
@@ -14,26 +15,15 @@ module.exports = (app) => {
   io.on('connection', (socket) => {
     console.log('new user connected on server');
 
-    socket.emit('newMessage', {
-      from: 'admin',
-      text: 'welcome to chat app',
-      createdAt: new Date().getTime()
-    })
-    socket.broadcast.emit('newMessage', {
-      from: 'admin',
-      text: 'new user joined',
-      createdAt: new Date().getTime()
-    })
+    socket.emit('newMessage', generateMessage('admin', 'welcome to the app'));
+    socket.broadcast.emit('newMessage', generateMessage('admin', 'new user logged in'));
 
-
-    socket.on('createMessage', (message) => {
-      console.log('create Message', message);
+    socket.on('createMessage', ({from, text}, callback) => {
+      // console.log('create Message', message.from, message.text);
       // this is to everyone
-      io.emit('newMessage', {
-        from: message.from,
-        text: message.text,
-        createdAt: new Date().getTime()
-      });
+      io.emit('newMessage', generateMessage(from, text));
+
+      callback('this is from server');
       // only received by other connections
       // socket.broadcast.emit('newMessage', {
       //   from: message.from,
