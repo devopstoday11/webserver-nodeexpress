@@ -30,6 +30,11 @@ module.exports = (app) => {
       //   text: message.text,
       //   createdAt: new Date().getTime()
       // });
+    });
+
+    socket.on('createLocationMessage', ({latitude, longitude}) => {
+      //
+      io.emit('newMessage', generateMessage('admin', `${latitude}, ${longitude}`))
     })
 
     socket.on('disconnect', () => {
