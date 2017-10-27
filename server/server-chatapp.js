@@ -19,17 +19,8 @@ module.exports = (app) => {
     socket.broadcast.emit('newMessage', generateMessage('admin', 'new user logged in'));
 
     socket.on('createMessage', ({from, text}, callback) => {
-      // console.log('create Message', message.from, message.text);
-      // this is to everyone
       io.emit('newMessage', generateMessage(from, text));
-
-      callback('this is from server');
-      // only received by other connections
-      // socket.broadcast.emit('newMessage', {
-      //   from: message.from,
-      //   text: message.text,
-      //   createdAt: new Date().getTime()
-      // });
+      callback();
     });
 
     socket.on('createLocationMessage', ({latitude, longitude}) => {
