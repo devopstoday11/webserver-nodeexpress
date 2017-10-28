@@ -1,5 +1,8 @@
 # webserver-nodeexpress
-A sample web server in node and express
+A sample web server in node and express.
+
+## Socketio Chat app
+uses scket io to coordinate live chat.
 
 ## App Location
 
