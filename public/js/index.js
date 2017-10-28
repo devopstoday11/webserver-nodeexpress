@@ -2,7 +2,7 @@
 // scroll user to bottom
 function scrollToBottom() {
   // selectors
-  var messages = jQuery('messages');
+  var messages = jQuery('#messages');
   var newMessage = messages.children('li:last-child');
 
   // heights
@@ -13,8 +13,7 @@ function scrollToBottom() {
   var lastMessageHeight = newMessage.prev().innerHeight();  
 
   if (clientHeight + scrollTop + newMessageHeight + lastMessageHeight >= scrollHeight) {
-    // should scroll
-    console.log('should scroll');
+    messages.scrollTop(scrollHeight);
   }
 }
 
