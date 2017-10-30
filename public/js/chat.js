@@ -17,9 +17,20 @@ function scrollToBottom() {
   }
 }
 
-
 var socket = io(); // initiate request
+
+
 socket.on('connect', function() {
+  var params = jQuery.deparam(window.location.search);
+  socket.emit('join', params, function(err) {
+    if (err) {
+      // redirect
+      alert(err);
+      window.location.href = '/chatapp/';
+    } else {
+      console.log('No error');
+    }
+  });
   console.log('connected to server');
 });
 
