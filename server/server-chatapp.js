@@ -16,22 +16,30 @@ module.exports = (app) => {
 
   // sets up connection
   io.on('connection', (socket) => {
+    socket.emit('getRoomList', users.getRoomList());    
     console.log('new user connected on server');
-
+    
     socket.on('join', (params, cb) => {
       if (!isRealString(params.name) || !isRealString(params.room)) {
         return cb('Name and room name are required');
       }
-      socket.join(params.room);
-      users.removeUser(socket.id);
-      users.addUser(socket.id, params.name, params.room);
-      io.to(params.room).emit('updateUserList', users.getUserList(params.room));
-      // io.emit -> io.to(The Office Fans).emit
-      // socket.broadcast.emit -> socket.broadcast.to('The office fans).emit
-      // socket.emit... same
+      // case insensitive
+      const room = users.getExistingRoom(params.room);
+      try {
+        socket.join(room);             
+        users.removeUser(socket.id);      
+        users.addUser(socket.id, params.name, room);
+        socket.broadcast.emit('getRoomList', users.getRoomList());
+      }
+      catch(err) {
+        console.log(err.message)
+        return cb(err.message);
+      };
+      io.to(room).emit('updateUserList', users.getUserList(room));
 
+      socket.emit('updateUserRoom', room);
       socket.emit('newMessage', generateMessage('admin', 'Welcome to the chat app'));
-      socket.broadcast.to(params.room).emit('newMessage', generateMessage('admin', `${params.name} has joined`));
+      socket.broadcast.to(room).emit('newMessage', generateMessage('admin', `${params.name} has joined`));
   
       cb();
     });

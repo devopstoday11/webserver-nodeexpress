@@ -27,15 +27,20 @@ socket.on('connect', function() {
       // redirect
       alert(err);
       window.location.href = '/chatapp/';
-    } else {
-      console.log('No error');
+    } else {      
+      console.log('connected to server');
     }
   });
-  console.log('connected to server');
+  
 });
 
 socket.on('disconnect', function() {
   console.log('disconnected from server');
+})
+
+socket.on('updateUserRoom', function(room) {
+  jQuery('#room').text(room);
+  window.history.pushState({}, document.title, "/chatapp/" + room);  
 })
 
 socket.on('updateUserList', function(users) {

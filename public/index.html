@@ -20,13 +20,20 @@
       </div>
       <div class="form-field">
         <label for="name">Room name</label>
-        <input type="text" name="room" />  
+        <select id="select-room">          
+        </select>
       </div>
+      <div class="form-field">
+          <label for="room">Room name</label>
+          <input type="text" name="room" autofocus />
+        </div>
       <div class="form-field">
         <button>Join</button>
       </div>
-    </form>
-
+    </form>    
   </div>
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="./js/lib/jquery.min.js"></script>
+  <script src="./js/login.js"></script>
 </body>
 </html>

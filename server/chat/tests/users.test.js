@@ -26,11 +26,37 @@ describe('Users', () => {
   
   it('should add new user', () => {
     var users = new Users();
-    var user = {id: '123', name:'Tim', room: 'office room'}
+    var user = {id: '123', name:'Timmy', room: 'office room'}
     var res = users.addUser(user.id, user.name, user.room);
     expect(res).toEqual(user)
     expect(users.users).toEqual([user])
   });
+
+  it('should not add a new user with same name to same room', () => {
+    var user = {id: '123', name:'Tim', room: 'Node Course'}
+    expect(() => users.addUser(user.id, user.name, user.room)).toThrow();
+    expect(users.users.length).toBe(3)
+  });
+
+  it('should add user with same name to different room', () => {
+    var user = {id: '1243', name:'Tim', room: 'React Course'}
+    var res = users.addUser(user.id, user.name, user.room);
+    expect(res).toEqual(user);
+    expect(users.users.length).toBe(4);
+    expect(users.users).toContainEqual(res);
+  });
+
+  it('should add a new user to room regardless of case', () => {
+    var user = {id: '123', name:'John3', room: 'node course'}
+    var user2 = {id: '134', name:'John4', room: 'Node course'}
+    var res = users.addUser(user.id, user.name, user.room);
+    var res2 = users.addUser(user2.id, user2.name, user2.room);
+    expect(res.room).toBe('Node Course');
+    expect(res2.room).toBe('Node Course');
+    expect(users.users.length).toBe(5);
+    expect(users.getRoomList().length).toBe(2);
+  });
+
 
   it('should remove a user by id', () => {
     var removed = users.removeUser('1');
@@ -66,7 +92,11 @@ describe('Users', () => {
     expect(userList).toEqual(['Jen'])
   });
 
-
+  it('should return list of rooms sorted by their size', ()=> {
+    var roomList = users.getRoomList();
+    expect(roomList.length).toBe(2);
+    expect(roomList[0]).toBe('Node Course');
+  })
 
 
 })
