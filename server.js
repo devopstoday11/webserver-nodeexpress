@@ -1,6 +1,8 @@
 const express = require('express');
+const favicon = require('express-favicon');
 const hbs = require('hbs');
 const fs = require('fs');
+const path = require('path');
 
 var app = express();
 require('./server/config/config');
@@ -22,6 +24,7 @@ app.use((req, res, next) => {
 
 // static 
 app.use(express.static(__dirname + '../public'));
+app.use(favicon(path.join(__dirname, "public/images/favicon.ico"))); 
 
 // chat app goes here
 var server = require('./server/server-chatapp')(app);

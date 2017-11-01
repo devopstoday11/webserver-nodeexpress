@@ -623,7 +623,13 @@ expect@^21.2.1:
     jest-message-util "^21.2.1"
     jest-regex-util "^21.2.0"
 
-express@^4.16.2:
+express-favicon@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/express-favicon/-/express-favicon-2.0.0.tgz#a22d9a6992d05594930045db7e62ca785b93a296"
+  dependencies:
+    express "4.x"
+
+express@4.x, express@^4.16.2:
   version "4.16.2"
   resolved "https://registry.yarnpkg.com/express/-/express-4.16.2.tgz#e35c6dfe2d64b7dca0a5cd4f21781be3299e076c"
   dependencies:
